@@ -202,3 +202,5 @@ details[open] summary:after{content:"\2212"}
 .g5{grid-template-columns:repeat(5,1fr)}
 @media (max-width:900px){.g5{grid-template-columns:repeat(2,1fr)}}
 .logo-tile.icon .wordmark{font-size:1.05rem;color:#1d1d1f}
+[hidden]{display:none!important}
+section:has(> .article){padding-top:36px}

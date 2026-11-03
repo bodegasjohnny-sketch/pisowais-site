@@ -22,19 +22,23 @@ async function compounder(root) {
     const series = [{ name: 'Traditional bank (' + pct(data.baseline.rate) + ')', rate: data.baseline.rate, p: null }, ...chosen.map(p => ({ name: p.name + ' (' + p.rate_label + ')', rate: p.rate, p }))]
       .map((s, i) => ({ ...s, color: COLORS[i % COLORS.length], res: grow({ principal: P, monthly: M, years: Y, rate: s.rate, tax: data.tax.final_withholding }) }));
     // chart
-    const W = 640, H = 300, pad = 46, max = Math.max(...series.map(s => s.res.final)) * 1.05 || 1, n = Y * 12;
-    const x = i => pad + (W - pad - 12) * (i / n), y = v => H - 30 - (H - 50) * (v / max);
+    const W = 640, H = 300, pad = 52, n = Y * 12;
+    const hi = Math.max(...series.map(s => s.res.final)), lo0 = Math.min(...series.map(s => Math.min(...s.res.series)));
+    const span = Math.max(hi - lo0, 1), min = Math.max(0, lo0 - span * .08), max = hi + span * .12;
+    const x = i => pad + (W - pad - 70) * (i / n), y = v => H - 30 - (H - 50) * ((v - min) / (max - min));
     let g = '';
-    for (let k = 0; k <= 4; k++) { const v = max * k / 4; g += `<line x1="${pad}" x2="${W - 12}" y1="${y(v)}" y2="${y(v)}" stroke="#E2E4EE"/><text x="${pad - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#4A5375">${v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : Math.round(v / 1000) + 'k'}</text>`; }
+    for (let k = 0; k <= 4; k++) { const v = min + (max - min) * k / 4; g += `<line x1="${pad}" x2="${W - 12}" y1="${y(v)}" y2="${y(v)}" stroke="#E2E4EE"/><text x="${pad - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#4A5375">${v >= 1e6 ? (v / 1e6).toFixed(2) + 'M' : (v / 1000).toFixed(v < 1e5 ? 1 : 0) + 'k'}</text>`; }
     for (let yr = 0; yr <= Y; yr += Math.max(1, Math.ceil(Y / 6))) g += `<text x="${x(yr * 12)}" y="${H - 10}" font-size="11" text-anchor="middle" fill="#4A5375">Yr ${yr}</text>`;
-    series.forEach(s => { const pts = s.res.series.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' '); g += `<polyline class="ln" points="${pts}" fill="none" stroke="${s.color}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" pathLength="1"/>`; });
+    series.forEach(s => { const pts = s.res.series.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' '); const last = s.res.series[s.res.series.length - 1]; g += `<circle cx="${x(n)}" cy="${y(last)}" r="4" fill="${s.color}"/>`;
+      g += `<polyline class="ln" points="${pts}" fill="none" stroke="${s.color}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" pathLength="1"/>`; });
     svg.innerHTML = g;
     svg.querySelectorAll('.ln').forEach(l => { l.style.strokeDasharray = 1; l.style.strokeDashoffset = 1; l.getBoundingClientRect(); l.style.transition = 'stroke-dashoffset .9s ease'; l.style.strokeDashoffset = 0; });
     legend.innerHTML = series.map(s => `<li><i style="background:${s.color}"></i>${s.name}</li>`).join('');
     const base = series[0].res, best = series.reduce((a, b) => b.res.final > a.res.final ? b : a);
     cards.innerHTML = `<div class="rc"><div class="k">You put in</div><div class="v">${peso(base.contributed)}</div></div>
       <div class="rc"><div class="k">Traditional bank, after tax</div><div class="v">${peso(base.final)}</div></div>
-      <div class="rc"><div class="k">${best.p ? best.p.name : 'Best'}, after tax</div><div class="v" style="color:#1E8A4C">${peso(best.res.final)}</div></div>`;
+      <div class="rc"><div class="k">${best.p ? best.p.name : 'Best'}, after tax</div><div class="v" style="color:#1E8A4C">${peso(best.res.final)}</div></div>
+      <div class="rc" style="grid-column:1/-1;background:#FFF3C9"><div class="k">Extra after tax vs the traditional bank</div><div class="v">+${peso(best.res.final - base.final)}</div></div>`;
     live.textContent = `After ${Y} years, the traditional bank ends at ${peso(base.final)} and ${best.name} ends at ${peso(best.res.final)}, after 20 percent tax.`;
     notes.innerHTML = series.map(s => `<li><strong>${s.name}</strong>: net interest ${peso(s.res.netInterest)} (tax withheld ${peso(s.res.taxPaid)}). ${s.p ? s.p.pdic + ' <span class="asof">Rate as of ' + s.p.as_of + ', <a href="' + s.p.sources[0] + '" target="_blank" rel="noopener">source</a>.</span>' + (s.p.promo ? ' <span class="tag promo">Promo boosts not included</span>' : '') : data.baseline.conditions + ' <span class="asof">As of ' + data.baseline.as_of + ', <a href="' + data.baseline.source + '" target="_blank" rel="noopener">source</a>.</span>'}</li>`).join('');
   }

@@ -32,7 +32,7 @@ def platform_cards():
 <p class="small" style="margin:0">{p["conditions"]}</p>
 <p class="con" style="margin:0"><strong>Honest con:</strong> {p["cons"]}</p>
 <p class="small" style="margin:0"><strong>Who holds the money:</strong> {p["holder"]}. <strong>Insurance:</strong> {p["pdic"]}</p>
-<div class="actions"><a class="btn btn-navy btn-sm" data-ref="{p["id"]}" href="{p["official"]}" target="_blank" rel="noopener">Open account at {p["name"]}</a><span class="tag aff" hidden>Affiliate link</span></div>
+<div class="actions"><a class="btn btn-navy btn-sm" data-ref="{p["id"]}" href="{p["official"]}" target="_blank" rel="noopener" aria-label="Open account at {p["name"]} (opens official site)">Open account</a><span class="tag aff" hidden>Affiliate link</span></div>
 <p class="asof" style="margin:0">Sources: {src}</p></article>''')
     return '\n'.join(out)
 
@@ -78,7 +78,9 @@ def build():
         if path != '404.html': pages.append(path)
     (OUT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{SITE}/{p}</loc><lastmod>{RATES["checked"]}</lastmod></url>\n' for p in pages) + '</urlset>\n')
     (OUT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n')
-    (OUT / 'CNAME').write_text('pisowais.johnnybodegas.com')
+    import os
+    if os.environ.get('NO_CNAME') != '1':  # NO_CNAME=1 only while QA-testing on github.io
+        (OUT / 'CNAME').write_text('pisowais.johnnybodegas.com')
     (OUT / '.nojekyll').write_text('')
     print('built', len(pages) + 1, 'pages')
 
