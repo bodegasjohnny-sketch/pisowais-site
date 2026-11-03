@@ -1,0 +1,55 @@
+{
+  "_README": "Paste your referral link in ref_url for each platform, then commit and push (or run python3 build.py). If ref_url equals official_url, no 'Affiliate link' tag shows. If it differs, the button shows an 'Affiliate link' tag automatically.",
+  "platforms": {
+    "gcash": {
+      "name": "GCash",
+      "official_url": "https://www.gcash.com",
+      "ref_url": "https://www.gcash.com"
+    },
+    "maya": {
+      "name": "Maya",
+      "official_url": "https://www.maya.ph",
+      "ref_url": "https://www.maya.ph"
+    },
+    "gotyme": {
+      "name": "GoTyme Bank",
+      "official_url": "https://www.gotyme.com.ph",
+      "ref_url": "https://www.gotyme.com.ph"
+    },
+    "tonik": {
+      "name": "Tonik",
+      "official_url": "https://tonikbank.com",
+      "ref_url": "https://tonikbank.com"
+    },
+    "maribank": {
+      "name": "MariBank",
+      "official_url": "https://www.maribank.ph",
+      "ref_url": "https://www.maribank.ph"
+    },
+    "cimb": {
+      "name": "CIMB Bank PH",
+      "official_url": "https://www.cimbbank.com.ph",
+      "ref_url": "https://www.cimbbank.com.ph"
+    },
+    "komo": {
+      "name": "Komo",
+      "official_url": "https://www.komo.ph",
+      "ref_url": "https://www.komo.ph"
+    },
+    "salmon": {
+      "name": "Salmon",
+      "official_url": "https://salmon.ph",
+      "ref_url": "https://salmon.ph"
+    },
+    "ownbank": {
+      "name": "OwnBank",
+      "official_url": "https://www.ownbank.com",
+      "ref_url": "https://www.ownbank.com"
+    },
+    "uno": {
+      "name": "UNO Digital Bank",
+      "official_url": "https://www.uno.bank",
+      "ref_url": "https://www.uno.bank"
+    }
+  }
+}

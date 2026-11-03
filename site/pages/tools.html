@@ -1,0 +1,64 @@
+<!--meta {"title":"Free money tools for Filipinos | Piso Wais","desc":"Idle Money Compounder, Credit Card Leverage Reality Check and Business Bottleneck Finder. Free, private, runs in your browser. Educational only.","path":"tools/","scripts":"<script type=\"module\" src=\"{{root}}js/tools.js\"></script>"} -->
+<section class="page-hero"><div class="wrap"><p class="crumbs"><a href="{{root}}">Home</a> / Tools</p><h1>Free money tools</h1><p>Three calculators that run only in your browser. Nothing you type leaves your phone.</p><p class="disclaimer-pill">Educational only, not financial advice.</p></div></section>
+
+<section id="compounder" aria-labelledby="c-title">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Tool 1</p><h2 id="c-title">Idle Money Compounder</h2><p class="muted">How much more could your idle money earn in an insured high-interest savings account than in a regular bank account? After tax, month by month.</p></div>
+    <div class="tool tool-grid">
+      <div>
+        <div class="field"><label for="cmp-amount">Starting amount <output for="cmp-amount"></output></label><input type="range" id="cmp-amount" min="0" max="1000000" step="5000" value="50000"></div>
+        <div class="field"><label for="cmp-monthly">Monthly top-up <output for="cmp-monthly"></output></label><input type="range" id="cmp-monthly" min="0" max="50000" step="500" value="2000"></div>
+        <div class="field"><label for="cmp-years">Years <output for="cmp-years"></output></label><input type="range" id="cmp-years" min="1" max="20" step="1" value="5"></div>
+        <fieldset class="plat-picks" id="cmp-picks"></fieldset>
+        <p class="small muted"><strong>Method:</strong> interest compounds monthly at the published per annum base rate divided by 12, and 20% final withholding tax is taken from each credit. Top-ups land at month end. Real banks may credit daily and use a 360-day year, so results differ slightly. Promo boosts and balance caps are not included. PDIC covers deposits up to PHP 1,000,000 per depositor, per bank.</p>
+      </div>
+      <div>
+        <div class="result-cards" id="cmp-cards"></div>
+        <div class="chart-wrap"><svg id="cmp-chart" viewBox="0 0 640 300" role="img" aria-label="Line chart of balance over time for each option"></svg></div>
+        <ul class="legend" id="cmp-legend"></ul>
+        <p class="visually-hidden" aria-live="polite" id="cmp-live"></p>
+        <ul class="small" id="cmp-notes" style="padding-left:18px"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="leverage" class="alt" aria-labelledby="l-title">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Tool 2</p><h2 id="l-title">Credit Card Leverage Reality Check</h2><p class="muted">Before you swipe for stock or equipment: does this purchase bring cash back before the due date? Leverage multiplies losses too.</p></div>
+    <div class="tool tool-grid">
+      <div>
+        <div class="field"><label for="lev-purchase">Purchase amount (PHP)</label><input type="number" id="lev-purchase" min="0" step="100" value="30000" inputmode="decimal"></div>
+        <div class="field"><label for="lev-cashback">Cash you expect back from it (PHP)</label><input type="number" id="lev-cashback" min="0" step="100" value="39000" inputmode="decimal"></div>
+        <div class="field"><label for="lev-days">Days until that cash actually arrives</label><input type="number" id="lev-days" min="0" step="1" value="35" inputmode="numeric"></div>
+        <div class="field"><label for="lev-float">Days from purchase to card due date</label><input type="number" id="lev-float" min="0" max="60" step="1" value="45" inputmode="numeric"><p class="small muted" style="margin:4px 0 0">Buy right after your statement date and this can reach about 45 to 50 days, depending on your card.</p></div>
+        <div class="field"><label for="lev-rate">Card interest per month (%)</label><input type="number" id="lev-rate" min="0" max="3" step="0.1" value="3" inputmode="decimal"><p class="small muted" style="margin:4px 0 0">BSP ceiling: 3% a month (36% a year), Circular 1165.</p></div>
+        <div class="field"><label for="lev-limit">Your credit limit (PHP, optional)</label><input type="number" id="lev-limit" min="0" step="1000" value="100000" inputmode="decimal"></div>
+      </div>
+      <div>
+        <div id="lev-out" aria-live="polite"></div>
+        <h3>Responsible leverage rules</h3>
+        <ul class="rules">
+          <li>Only finance purchases that produce cash before the statement due date.</li>
+          <li>Pay the full statement balance, every month. Minimum payment is a trap.</li>
+          <li>Keep balances under 30% of your limit.</li>
+          <li>No cash advances for business stock.</li>
+          <li>0% installment is fine only if the item earns more than the monthly amortization, and you budget for it.</li>
+          <li>If the verdict is yellow, plan B must already exist.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bottleneck" aria-labelledby="b-title">
+  <div class="wrap" style="max-width:860px">
+    <div class="section-head"><p class="eyebrow">Tool 3</p><h2 id="b-title">Business Bottleneck Finder</h2><p class="muted">10 questions, about 2 minutes. Scored locally. Get your top 3 fixes and which cheat sheet section to read first.</p></div>
+    <div class="tool">
+      <div class="progress" role="progressbar" aria-label="Questions answered" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><span id="quiz-bar"></span></div>
+      <form id="quiz-form"></form>
+      <div id="quiz-out" style="margin-top:18px"></div>
+    </div>
+    <p class="small muted" style="margin-top:16px">Educational only, not financial advice. Your answers never leave your browser.</p>
+  </div>
+</section>

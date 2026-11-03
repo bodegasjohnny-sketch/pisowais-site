@@ -1,0 +1,250 @@
+{
+  "checked": "2026-11-04",
+  "tax": {
+    "final_withholding": 0.2,
+    "note": "20% final withholding tax on peso deposit interest for individuals (NIRC Sec. 24(B)(1), as amended by CMEPA / RA 12214 from July 1, 2025).",
+    "source": "https://www.pwc.com/ph/en/news/2025/income-tax-on-interest-income-earned-from-bank-deposits.html"
+  },
+  "pdic": {
+    "max": 1000000,
+    "note": "PDIC insures deposits up to PHP 1,000,000 per depositor, per bank (effective March 15, 2025). E-wallet balances are not deposits; only money in the partner bank account is a deposit.",
+    "source": "https://www.pdic.gov.ph/MDIC"
+  },
+  "baseline": {
+    "id": "bpi-regular",
+    "name": "Traditional bank regular savings (BPI Regular Savings example)",
+    "rate": 0.000625,
+    "as_of": "2026-11-04",
+    "source": "https://www.bpi.com.ph/personal/bank/savings-accounts/regular-savings",
+    "conditions": "0.0625% p.a., earns only when daily balance is at least PHP 5,000; PHP 3,000 to open."
+  },
+  "platforms": [
+    {
+      "id": "gcash",
+      "name": "GCash",
+      "product": "GSave by CIMB",
+      "holder": "CIMB Bank Philippines (GSave is a CIMB bank account opened inside GCash)",
+      "rate": 0.023,
+      "rate_label": "2.30% p.a.",
+      "conditions": "Base rate. Interest credited monthly. No minimum deposit or maintaining balance. Basic GSave: PHP 50,000 cumulative deposit cap per the CIMB product disclosure; upgraded accounts have higher limits. Rate changed from 2.60% to 2.30% on June 1, 2026.",
+      "promo": false,
+      "pdic": "Deposit is with CIMB Bank PH, a bank. The GCash wallet balance itself is not a deposit.",
+      "as_of": "2026-11-04",
+      "effective": "2026-06-01",
+      "sources": [
+        "https://www.cimbbank.com.ph/en/help-and-support/faqs/savings-account/gsave-account/what-is-the-interest-rate-of-the-gsave-account.html",
+        "https://www.cimbbank.com.ph/en/help-and-support/customer-advisories/2026/important-advisory-on-cimb-deposit-interest-rates.html",
+        "https://help.gcash.com/hc/en-us/articles/12520304490905-What-is-the-interest-rate-in-GSave-by-CIMB"
+      ],
+      "best_for": "You already live in GCash",
+      "cons": "Lowest base rate on this list; basic account deposit cap.",
+      "logo": "gcash.svg",
+      "logo_tile": "light",
+      "official": "https://www.gcash.com",
+      "logo_kind": "icon"
+    },
+    {
+      "id": "maya",
+      "name": "Maya",
+      "product": "Maya Savings (Maya Bank)",
+      "holder": "Maya Bank, Inc. (digital bank). Maya Wallet balance is not a deposit.",
+      "rate": 0.03,
+      "rate_label": "3% p.a. base",
+      "conditions": "3% p.a. base on the whole balance, credited daily. Boosts up to 15% p.a. apply only to the first PHP 100,000 and need monthly transaction missions (some tiers for select users only). New-user 15% promo lasts one calendar month after qualifying; promo period stated to end Nov 30, 2026.",
+      "promo": true,
+      "promo_label": "Up to 15% p.a. with missions, capped at PHP 100,000",
+      "pdic": "Savings sit with Maya Bank, Inc., a digital bank. Wallet balance is not a deposit. Confirm PDIC cover in app.",
+      "as_of": "2026-11-04",
+      "effective": "2026-04-01",
+      "sources": [
+        "https://www.mayabank.ph/highinterestsavings/",
+        "https://www.maya.ph/deals/cashin/get-banked-with-maya-to-enjoy-new-user-exclusive-perks-november-2024"
+      ],
+      "best_for": "Heavy Maya spenders who hit missions every month",
+      "cons": "Boosted rate needs spending every month and caps at PHP 100,000. Do not spend just to chase a rate.",
+      "logo": "maya.svg",
+      "logo_tile": "light",
+      "official": "https://www.maya.ph",
+      "logo_kind": "wordmark"
+    },
+    {
+      "id": "gotyme",
+      "name": "GoTyme Bank",
+      "product": "GoalSave",
+      "holder": "GoTyme Bank (digital bank)",
+      "rate": 0.03,
+      "rate_label": "3.0% p.a.",
+      "conditions": "Up to 5 GoalSaves, no missions per GoTyme. Interest paid monthly, subject to 20% withholding tax.",
+      "promo": false,
+      "pdic": "GoTyme's savings page states savings are insured by PDIC. Confirm limits in app.",
+      "as_of": "2026-11-04",
+      "effective": null,
+      "sources": [
+        "https://www.gotyme.com.ph/save-and-invest"
+      ],
+      "best_for": "Simple goal buckets, no missions",
+      "cons": "Not the highest base rate.",
+      "logo": "gotyme.svg",
+      "logo_tile": "light",
+      "official": "https://www.gotyme.com.ph",
+      "logo_kind": "wordmark"
+    },
+    {
+      "id": "tonik",
+      "name": "Tonik",
+      "product": "Solo Stash / Group Stash",
+      "holder": "Tonik Digital Bank",
+      "rate": 0.0325,
+      "rate_label": "3.25% p.a.",
+      "conditions": "Solo Stash 3.25% p.a. Group Stash 3.25% p.a., or 3.75% p.a. with owner plus at least 2 participants. Plain Tonik Account earns only 0.1% p.a. Rates cut on Oct 19, 2026.",
+      "promo": false,
+      "pdic": "Tonik states deposits are insured by PDIC up to PHP 1M per depositor.",
+      "as_of": "2026-11-04",
+      "effective": "2026-10-19",
+      "sources": [
+        "https://tonikbank.com/deposit-interest-rates",
+        "https://bankero.com.ph/tonik-slashes-savings-interest-rates-starting-oct-19/main-news/"
+      ],
+      "best_for": "Goal stashes, barkada savings",
+      "cons": "Main account rate is only 0.1%; you must move money into a Stash.",
+      "logo": "tonik.svg",
+      "logo_tile": "light",
+      "official": "https://tonikbank.com",
+      "logo_kind": "wordmark"
+    },
+    {
+      "id": "maribank",
+      "name": "MariBank",
+      "product": "MariBank Savings (formerly SeaBank)",
+      "holder": "MariBank Philippines, Inc.",
+      "rate": 0.0325,
+      "rate_label": "3.25% p.a.",
+      "conditions": "3.25% p.a. on balances up to PHP 1,000,000; 3.75% p.a. above PHP 1,000,000. Credited daily, no maintaining balance.",
+      "promo": false,
+      "pdic": "MariBank states deposits are insured by PDIC up to PHP 1M per depositor.",
+      "as_of": "2026-11-04",
+      "effective": "2026-01-15",
+      "sources": [
+        "https://www.maribank.ph/fees-rates",
+        "https://www.maribank.ph/product/savings"
+      ],
+      "best_for": "Shopee users, daily interest with no missions",
+      "cons": "Anything above PHP 1M exceeds PDIC cover per bank.",
+      "logo": "maribank.png",
+      "logo_tile": "light",
+      "official": "https://www.maribank.ph",
+      "logo_kind": "icon"
+    },
+    {
+      "id": "cimb",
+      "name": "CIMB Bank PH",
+      "product": "UpSave / CIMB savings",
+      "holder": "CIMB Bank Philippines",
+      "rate": 0.023,
+      "rate_label": "2.30% p.a.",
+      "conditions": "CIMB advisory: 2.30% p.a. on GSave, UpSave, DragonFi Save and CIMB Grow from June 1, 2026. Pre-selected users may get CIMB Grow at a higher rate per GCash Help Center.",
+      "promo": false,
+      "pdic": "CIMB Bank PH is a bank; confirm PDIC details in app.",
+      "as_of": "2026-11-04",
+      "effective": "2026-06-01",
+      "sources": [
+        "https://www.cimbbank.com.ph/en/help-and-support/customer-advisories/2026/important-advisory-on-cimb-deposit-interest-rates.html"
+      ],
+      "best_for": "Free transfers, CIMB ecosystem",
+      "cons": "Base rate below most digital banks now.",
+      "logo": "cimb.svg",
+      "logo_tile": "light",
+      "official": "https://www.cimbbank.com.ph",
+      "logo_kind": "wordmark"
+    },
+    {
+      "id": "komo",
+      "name": "Komo",
+      "product": "Komo Savings (by EastWest Rural Bank)",
+      "holder": "EastWest Rural Bank",
+      "rate": 0.025,
+      "rate_label": "2.5% p.a.",
+      "conditions": "Komo savings page advertises 2.5%. Tier details above PHP 500,000 are unverified; check the app.",
+      "promo": false,
+      "pdic": "Backed by EastWest; confirm PDIC details in app.",
+      "as_of": "2026-11-04",
+      "effective": null,
+      "sources": [
+        "https://www.komo.ph/savings"
+      ],
+      "best_for": "EastWest customers",
+      "cons": "Lower rate than several digital banks.",
+      "logo": "komo.png",
+      "logo_tile": "dark",
+      "official": "https://www.komo.ph",
+      "logo_kind": "wordmark"
+    },
+    {
+      "id": "salmon",
+      "name": "Salmon",
+      "product": "Salmon Save",
+      "holder": "Salmon Bank",
+      "rate": 0.04,
+      "rate_label": "4% p.a.",
+      "conditions": "4% p.a. from Aug 24, 2026, no maintaining balance, interest calculated daily.",
+      "promo": false,
+      "pdic": "Not verified on Salmon's page we checked; confirm PDIC cover in app before parking big amounts.",
+      "as_of": "2026-11-04",
+      "effective": "2026-08-24",
+      "sources": [
+        "https://salmon.ph/help/how-much-interest-will-i-earn-from-salmon-save"
+      ],
+      "best_for": "Highest base rate we verified",
+      "cons": "Smaller, newer bank brand; verify insurance yourself.",
+      "logo": "salmon.svg",
+      "logo_tile": "light",
+      "official": "https://salmon.ph",
+      "logo_kind": "wordmark"
+    },
+    {
+      "id": "ownbank",
+      "name": "OwnBank",
+      "product": "Own It savings",
+      "holder": "OwnBank",
+      "rate": 0.038,
+      "rate_label": "3.8% p.a.",
+      "conditions": "3.8% p.a., interest accrues daily, PHP 1 minimum, subject to change at OwnBank's discretion. Basic accounts have a balance limit.",
+      "promo": false,
+      "pdic": "Not verified on the page we checked; confirm PDIC cover in app.",
+      "as_of": "2026-11-04",
+      "effective": null,
+      "sources": [
+        "https://www.ownbank.com/protocol/42"
+      ],
+      "best_for": "High flat rate, no missions",
+      "cons": "Less known brand; basic account limits.",
+      "logo": "ownbank.svg",
+      "logo_tile": "dark",
+      "official": "https://www.ownbank.com",
+      "logo_kind": "wordmark"
+    },
+    {
+      "id": "uno",
+      "name": "UNO Digital Bank",
+      "product": "#UNOready Savings",
+      "holder": "UNO Digital Bank",
+      "rate": 0.035,
+      "rate_label": "3.50% p.a.",
+      "conditions": "3.00% below PHP 5,000; 3.50% from PHP 5,000 to below PHP 5M; 1.00% from PHP 5M. Credited daily. Temporary 1% bonus ended Oct 31, 2026.",
+      "promo": false,
+      "pdic": "Confirm PDIC details in app.",
+      "as_of": "2026-11-04",
+      "effective": null,
+      "verification": "Official page text read via search index; direct fetch was blocked.",
+      "sources": [
+        "https://www.uno.bank/savings-account/"
+      ],
+      "best_for": "Simple tiered rate, no missions",
+      "cons": "Rate drops to 1% above PHP 5M.",
+      "logo": "uno.png",
+      "logo_tile": "light",
+      "official": "https://www.uno.bank",
+      "logo_kind": "icon"
+    }
+  ]
+}
