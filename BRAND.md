@@ -16,6 +16,7 @@ Method: k-means clustering (10 clusters) on non-background pixels of each asset 
 | Coin gold (primary CTA) | `#F9B909` | logo1 coin (#f9b909); logo4 #fdb80c |
 | Light gold | `#FBD46B` | logo1 coin highlight (#fbd46b) |
 | Terracotta (eyebrows, tagline) | `#D6674B` | fb_cover.jpg tagline "Tips lang, hindi financial advice." (#d6674b); logo4 #e66c58 |
+| Terracotta text (small eyebrow labels only) | `#A3462E` | Darker shade of #D6674B so 12.8px labels pass WCAG AA (axe-core check) |
 | Cream (page background) | `#FCFBF7` | fb_cover.jpg and logo1 background pixel (252,251,247) |
 | Warm cream (alt sections) | `#F7EEE0` | mascot stills background (pisowais-anim-test/stills, #f7eee0) |
 

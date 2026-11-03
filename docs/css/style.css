@@ -2,7 +2,7 @@
 :root{
   --cream:#FCFBF7; --cream-2:#F7EEE0; --navy:#121F47; --navy-2:#0A1433; --blue:#1F4EA6; --blue-2:#0257AD;
   --pink:#FDAFB0; --pink-2:#F36C7A; --gold:#F9B909; --gold-2:#FBD46B; --terra:#D6674B; --ink:#121F47; --muted:#4A5375;
-  --green:#1E8A4C; --amber:#B7791F; --red:#C0392B;
+  --green:#17773F; --amber:#B7791F; --red:#C0392B;
   --radius:20px; --shadow:0 18px 40px -18px rgba(18,31,71,.35); --shadow-sm:0 6px 18px -8px rgba(18,31,71,.25);
   --font:"Poppins","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif; --max:1160px;
 }
@@ -22,7 +22,7 @@ h1{font-size:clamp(2.1rem,6vw,3.9rem);font-weight:800}
 h2{font-size:clamp(1.65rem,4vw,2.6rem);font-weight:800}
 h3{font-size:1.25rem;font-weight:700}
 p{margin:0 0 1em}
-.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--terra);margin-bottom:.8em}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--terra-ink,#A3462E);margin-bottom:.8em}
 .muted{color:var(--muted)}
 .small{font-size:.86rem}
 /* header */

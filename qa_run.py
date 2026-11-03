@@ -7,7 +7,7 @@ BASE = sys.argv[1].rstrip('/') + '/'; LABEL = sys.argv[2]
 OUT = pathlib.Path('qa') / LABEL; OUT.mkdir(parents=True, exist_ok=True)
 PAGES = ['', 'tools/', 'platforms/', 'guides/', 'guides/credit-card-for-business/', 'guides/where-to-park-idle-money/', 'guides/cash-flow-gaps/', 'guides/bank-vs-digital-bank-vs-ewallet/', 'guides/debt-snowball-vs-avalanche/', 'guides/emergency-fund-daily-income/', 'about/', 'disclosure/', 'privacy/', 'this-page-does-not-exist/']
 ARGS = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']
-VIEWS = {'mobile': dict(viewport={'width': 390, 'height': 844}, device_scale_factor=2, is_mobile=True, has_touch=True), 'desktop': dict(viewport={'width': 1280, 'height': 800})}
+VIEWS = {'mobile': dict(viewport={'width': 390, 'height': 844}, device_scale_factor=2, has_touch=True), 'desktop': dict(viewport={'width': 1280, 'height': 800})}
 CLS_JS = """window.__cls=0;new PerformanceObserver(l=>{for(const e of l.getEntries()){if(!e.hadRecentInput)window.__cls+=e.value}}).observe({type:'layout-shift',buffered:true});
 window.__lcp=0;new PerformanceObserver(l=>{const e=l.getEntries();window.__lcp=e[e.length-1].startTime}).observe({type:'largest-contentful-paint',buffered:true});"""
 async def main():

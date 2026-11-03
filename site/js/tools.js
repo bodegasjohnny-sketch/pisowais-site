@@ -37,7 +37,7 @@ async function compounder(root) {
     const base = series[0].res, best = series.reduce((a, b) => b.res.final > a.res.final ? b : a);
     cards.innerHTML = `<div class="rc"><div class="k">You put in</div><div class="v">${peso(base.contributed)}</div></div>
       <div class="rc"><div class="k">Traditional bank, after tax</div><div class="v">${peso(base.final)}</div></div>
-      <div class="rc"><div class="k">${best.p ? best.p.name : 'Best'}, after tax</div><div class="v" style="color:#1E8A4C">${peso(best.res.final)}</div></div>
+      <div class="rc"><div class="k">${best.p ? best.p.name : 'Best'}, after tax</div><div class="v" style="color:#17773F">${peso(best.res.final)}</div></div>
       <div class="rc" style="grid-column:1/-1;background:#FFF3C9"><div class="k">Extra after tax vs the traditional bank</div><div class="v">+${peso(best.res.final - base.final)}</div></div>`;
     live.textContent = `After ${Y} years, the traditional bank ends at ${peso(base.final)} and ${best.name} ends at ${peso(best.res.final)}, after 20 percent tax.`;
     notes.innerHTML = series.map(s => `<li><strong>${s.name}</strong>: net interest ${peso(s.res.netInterest)} (tax withheld ${peso(s.res.taxPaid)}). ${s.p ? s.p.pdic + ' <span class="asof">Rate as of ' + s.p.as_of + ', <a href="' + s.p.sources[0] + '" target="_blank" rel="noopener">source</a>.</span>' + (s.p.promo ? ' <span class="tag promo">Promo boosts not included</span>' : '') : data.baseline.conditions + ' <span class="asof">As of ' + data.baseline.as_of + ', <a href="' + data.baseline.source + '" target="_blank" rel="noopener">source</a>.</span>'}</li>`).join('');
@@ -57,7 +57,7 @@ function leverageTool(root) {
       <div class="result-cards">
         <div class="rc"><div class="k">Profit before interest</div><div class="v">${peso(r.profit)}</div></div>
         <div class="rc"><div class="k">Interest if carried ${r.carriedDays} days</div><div class="v">${peso(r.interestCost)}</div></div>
-        <div class="rc"><div class="k">Net after interest</div><div class="v" style="color:${r.net > 0 ? '#1E8A4C' : '#C0392B'}">${peso(r.net)}</div></div>
+        <div class="rc"><div class="k">Net after interest</div><div class="v" style="color:${r.net > 0 ? '#17773F' : '#C0392B'}">${peso(r.net)}</div></div>
         <div class="rc"><div class="k">Break-even cash return</div><div class="v">${peso(r.breakEvenReturn)}</div></div>
         <div class="rc"><div class="k">Profit gone after day</div><div class="v">${r.breakEvenDays ? Math.floor(r.breakEvenDays) : 'n/a'}</div></div>
         <div class="rc"><div class="k">Credit limit used</div><div class="v">${r.utilization === null ? 'n/a' : Math.round(r.utilization * 100) + '%'}</div></div>
