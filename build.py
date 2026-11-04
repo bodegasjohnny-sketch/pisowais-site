@@ -8,7 +8,7 @@ SRC = pathlib.Path('site'); OUT = pathlib.Path('docs'); SITE = 'https://pisowais
 RATES = json.loads((SRC / 'data/rates.json').read_text())
 
 def nav(path):
-    items = [('', 'Home'), ('tools/', 'Free tools'), ('platforms/', 'Where to park cash'), ('guides/', 'Guides'), ('about/', 'About')]
+    items = [('', 'Home'), ('tools/', 'Free tools'), ('platforms/', 'Where to park cash'), ('guides/', 'Guides'), ('plays/', 'Quizzes'), ('about/', 'About')]
     return ''.join(f'<li><a href="{{{{root}}}}{p}"{" aria-current=page" if p == path else ""}>{t}</a></li>' for p, t in items)
 
 LAYOUT = (SRC / 'layout.html').read_text()
@@ -46,6 +46,13 @@ def rate_table():
 def logo_strip():
     return ''.join(tile(p, 160, 44) for p in RATES['platforms'])
 
+def thumb(m):
+    # Real art drops in at site/assets/articles/<slug>.jpg; until then the SVG placeholder is used.
+    slug = m.group(1)
+    for ext in ('jpg', 'webp', 'png'):
+        if (SRC / f'assets/articles/{slug}.{ext}').exists(): return f'{{{{root}}}}assets/articles/{slug}.{ext}'
+    return f'{{{{root}}}}assets/articles/{slug}.svg'
+
 def build():
     if OUT.exists(): shutil.rmtree(OUT)
     OUT.mkdir()
@@ -63,6 +70,7 @@ def build():
             root = ''
             head_extra = '<script>document.write(\'<base href="\'+(location.hostname.endsWith("github.io")?"/pisowais-site/":"/")+\'">\')</script>'
         body = body.replace('{{platform_cards}}', platform_cards()).replace('{{rate_table}}', rate_table()).replace('{{logo_strip}}', logo_strip()).replace('{{checked}}', RATES['checked'])
+        body = re.sub(r'\{\{thumb:([a-z0-9-]+)\}\}', thumb, body)
         canon = SITE + '/' + ('' if path == '404.html' else path)
         jsonld = meta.get('jsonld', 'org')
         if jsonld == 'article':
