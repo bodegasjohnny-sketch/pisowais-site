@@ -23,6 +23,28 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 .check li{list-style:none;margin-left:-16px;padding-left:22px;position:relative}.check li:before{content:"";position:absolute;left:0;top:4px;width:11px;height:11px;border:2px solid #1F4EA6;border-radius:3px}
 .small{font-size:8.4pt;color:#4A5375}.num{font-weight:800;color:#D6674B}
 .verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.verdict div{border-radius:10px;padding:8px;color:#fff;font-size:9pt}.g{background:#1E8A4C}.y{background:#B7791F}.r{background:#C0392B}
+
+.ih{display:flex;align-items:center;gap:8px}.ih span{min-width:0}
+.ih .ih2{width:15mm;height:15mm;flex:0 0 auto;margin:-2mm 0 -2mm -1mm}
+.ih .ih3{width:8.5mm;height:8.5mm;flex:0 0 auto;margin:-1.5mm 0 -1.5mm 0}
+.spot{position:absolute;right:12mm;bottom:16mm;width:46mm;height:auto}
+.cover{background:#04244B url(art/cover-3d.jpg) no-repeat;background-size:66% auto;background-position:center bottom 30mm;padding:16mm 18mm}.cover .tag{display:table}.cover .wm{display:table}
+.cover h1{font-size:36pt}.cover .wm{margin-bottom:9mm}
+.cover ul{columns:2;column-gap:8mm;font-size:10.5pt;margin-top:5mm;max-width:150mm}
+.cover .disc{background:rgba(10,20,51,.88)}
+
+/* v2 breathing room */
+body{line-height:1.62}
+.pg:not(.cover) p{margin:0 0 10px}
+.pg:not(.cover) li{margin-bottom:6px}
+.pg:not(.cover) ul,.pg:not(.cover) ol{margin:6px 0 12px}
+.pg:not(.cover) h2{margin-bottom:12px}
+.pg:not(.cover) h3{margin:18px 0 8px}
+.box{padding:12px 14px;margin:12px 0;line-height:1.58}
+.two{gap:14px}.verdict{gap:10px}.verdict div{padding:10px}
+th,td{padding:5px 7px}
+.cover ul{font-size:12pt;font-weight:700;line-height:1.5;max-width:none;column-gap:6mm}
+.cover li{margin-bottom:4px}
 </style></head><body>
 
 <section class="pg cover">
@@ -31,11 +53,10 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <h1>The Piso Wais<br><span class="hl">Money Cheat Sheet</span></h1>
 <p class="sub">Use credit cards for business without the debt trap, make idle money earn in insured accounts, and close cash flow gaps. For Filipino earners and small business owners.</p>
 <ul><li>Pain check</li><li>Credit card leverage rules</li><li>Idle money ladder with dated rates</li><li>30-day cash flow plan</li><li>Debt payoff order</li><li>Wealth-building basics</li><li>Business bottleneck fixes</li><li>7-day action checklist</li></ul>
-<img class="badge" src="pisowais-badge.png" alt="">
 <div class="disc"><strong>Educational only, not financial advice.</strong> Rates and rules checked November 4, 2026. They change; confirm in the official app or website before acting. Piso Wais is independent and not affiliated with any bank or e-wallet. pisowais.johnnybodegas.com</div>
 </section>
 
-<section class="pg"><div class="tag">Section 1</div><h2>Pain check: where is your money leaking?</h2>
+<section class="pg"><div class="tag">Section 1</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/magnifier-320.webp" alt=""><span>Pain check: where is your money leaking?</span></h2>
 <p>Answer honestly. Each "yes" is a leak this cheat sheet helps you fix.</p>
 <ol>
 <li>Did you pay only the minimum (or pay late) on a credit card in the last 3 months?</li>
@@ -46,31 +67,32 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <li>Would your business stop selling if you got sick for two weeks?</li>
 </ol>
 <div class="box pink"><strong>Score:</strong> 0 to 1 yes: good base, go straight to wealth building. 2 to 3: fix the leaks first (sections 3 to 5). 4 or more: start with the 7-day checklist on the last page today.</div>
-<h3>The three money pains we see most</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/warning-320.webp" alt=""><span>The three money pains we see most</span></h3>
 <div class="two"><div class="box"><strong>The card cycle.</strong> Minimum payments on a balance charged up to 3% a month (the BSP ceiling) mean most of your payment goes to interest.</div><div class="box"><strong>Idle cash.</strong> Big-bank regular savings can pay as little as 0.0625% a year (BPI Regular Savings example). PHP 100,000 earns about PHP 62.50 a year before tax.</div></div>
 <div class="box"><strong>Cash flow gaps.</strong> You can be profitable and still run out of cash when customers pay later than suppliers want to be paid.</div>
-<h3>One rule for this whole guide</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/lightbulb-320.webp" alt=""><span>One rule for this whole guide</span></h3>
 <p>Every peso needs a job and a home. A job: bills, emergency, debt payoff, or growth. A home: the account or tool that fits the job. The rest of this cheat sheet tells you which home fits which job.</p>
+<img class="spot" src="art/spot-leak.png" alt="">
 <div class="foot"><span>Piso Wais Cheat Sheet. Educational only, not financial advice.</span><span>2</span></div></section>
 
-<section class="pg"><div class="tag">Section 2</div><h2>Leverage rules: credit cards for business</h2>
+<section class="pg"><div class="tag">Section 2</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/credit-card-320.webp" alt=""><span>Leverage rules: credit cards for business</span></h2>
 <p>A credit card is a timing tool. Pay the full statement balance by the due date and regular purchases usually cost zero interest. Miss it and you pay interest at up to the BSP ceiling.</p>
 <div class="box blue"><strong>BSP rules (Circular No. 1165, 2023):</strong> interest or finance charges capped at <span class="num">3% per month / 36% per year</span>. Card installment loans: max <span class="num">1% monthly add-on</span>. Cash advance: max <span class="num">PHP 200</span> processing fee per transaction, plus interest.</div>
-<h3>The one test: cash before the due date</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/target-320.webp" alt=""><span>The one test: cash before the due date</span></h3>
 <p>Will this purchase produce cash in your account, enough to pay it in full, before the statement due date?</p>
 <div class="verdict"><div class="g"><strong>GREEN</strong><br>Cash arrives before the due date with margin. Swipe, then pay in full.</div><div class="y"><strong>YELLOW</strong><br>Works only if nothing goes wrong. Have a buffer ready or do not swipe.</div><div class="r"><strong>RED</strong><br>No clear cash before the due date, or it does not pay back. Do not use the card.</div></div>
-<h3>How the float works</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/clock-320.webp" alt=""><span>How the float works</span></h3>
 <p>Buy right after your statement date and the purchase appears on the next statement, then you still get the grace period to the due date. Depending on the card, this can reach roughly 45 to 50 days.</p>
-<h3>Seven rules for responsible leverage</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/checklist-320.webp" alt=""><span>Seven rules for responsible leverage</span></h3>
 <ol><li>Finance only purchases with payback shorter than your float.</li><li>Pay the full statement balance every month. Never "minimum only".</li><li>Keep your balance under 30% of your credit limit.</li><li>No cash advances for business stock.</li><li>0% installment only for items that earn more per month than the amortization.</li><li>Keep a cash buffer of at least one month of card spending.</li><li>Missed a full payment once? Stop new card spending until you are at zero.</li></ol>
 <div class="box gold"><strong>Example:</strong> PHP 30,000 of ingredients for an order that pays PHP 39,000 on day 35. Due date is day 45. Green: zero interest. If the client pays on day 65 instead, 20 days late, interest at 3% a month is about PHP 590 plus any late fee. Leverage amplifies losses too.</div>
 <p class="small">Try your own numbers: pisowais.johnnybodegas.com/tools/#leverage</p>
 <div class="foot"><span>Source: bsp.gov.ph/Regulations/Issuances/2023/1165.pdf (checked Nov 4, 2026)</span><span>3</span></div></section>
 
-<section class="pg"><div class="tag">Section 3</div><h2>Idle money ladder</h2>
+<section class="pg"><div class="tag">Section 3</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/stairs-320.webp" alt=""><span>Idle money ladder</span></h2>
 <p>Put each peso where it fits the time you will need it.</p>
 <div class="two"><div class="box"><strong>Rung 1. Wallet (1 to 2 weeks of spending).</strong> E-wallet or debit account. Convenience, not interest. An e-wallet balance is not a bank deposit.</div><div class="box"><strong>Rung 2. Emergency fund (3 to 6 months of essentials).</strong> Insured high-interest savings. Safe, reachable within a day.</div><div class="box"><strong>Rung 3. Goals in 6 to 24 months.</strong> Savings or time deposits. Check early withdrawal rules.</div><div class="box"><strong>Rung 4. Long-term (5+ years).</strong> Only after Rung 2 is full. See section 6.</div></div>
-<h3>Base rates we checked (per annum, before 20% tax), as of Nov 4, 2026</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/chart-up-320.webp" alt=""><span>Base rates we checked (per annum, before 20% tax), as of Nov 4, 2026</span></h3>
 <table><tr><th>Platform / product</th><th>Base rate</th><th>Key condition</th></tr>
 <tr><td>Salmon, Salmon Save</td><td>4%</td><td>From Aug 24, 2026; no maintaining balance</td></tr>
 <tr><td>OwnBank, Own It</td><td>3.8%</td><td>Daily accrual; subject to change</td></tr>
@@ -86,7 +108,7 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <div class="box gold"><strong>Rules:</strong> PDIC insures deposits up to <span class="num">PHP 1,000,000 per depositor, per bank</span> (since March 15, 2025). Spread large amounts across banks. Interest has a <span class="num">20% final withholding tax</span>: 3.25% gross is 2.6% net. Rates change; check the app monthly. Confirm each bank's PDIC cover in its app.</div>
 <div class="foot"><span>Sources listed on page 11. Rates change, check the app.</span><span>4</span></div></section>
 
-<section class="pg"><div class="tag">Section 4</div><h2>Cash flow 30-day plan</h2>
+<section class="pg"><div class="tag">Section 4</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/calendar-320.webp" alt=""><span>Cash flow 30-day plan</span></h2>
 <p>Profit is an opinion. Cash is a fact. Do one block per week.</p>
 <div class="two">
 <div class="box"><strong>Week 1. Map</strong><ul><li>List every expected peso in and out for 30 days, by date.</li><li>Include card due dates, loans and your own salary.</li><li>Mark gap days where the balance goes below zero.</li></ul></div>
@@ -94,37 +116,38 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <div class="box"><strong>Week 3. Collect faster</strong><ul><li>Deposits on custom or large orders.</li><li>Invoice the same day you deliver.</li><li>Follow up on the due date.</li><li>Bundle slow stock to turn it into cash.</li></ul></div>
 <div class="box"><strong>Week 4. Buffer</strong><ul><li>Open a separate business savings account.</li><li>Move a fixed % of every sale, even 5%.</li><li>Target: one month of fixed costs first.</li></ul></div>
 </div>
-<h3>Three numbers to check every week</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/calculator-320.webp" alt=""><span>Three numbers to check every week</span></h3>
 <ol><li>Cash on hand across all business accounts.</li><li>Money owed to you and how late it is.</li><li>Bills due in the next 14 days.</li></ol>
 <div class="box pink">If cash on hand plus sure collections is less than bills due in 14 days, a gap is coming. Act now: delay, collect, or arrange a bridge you can repay on a known date.</div>
-<h3>Simple tracker layout</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/loan-document-320.webp" alt=""><span>Simple tracker layout</span></h3>
 <table><tr><th>Date</th><th>Description</th><th>In</th><th>Out</th><th>Balance</th></tr><tr><td>Nov 4</td><td>Opening balance</td><td></td><td></td><td>12,000</td></tr><tr><td>Nov 5</td><td>Supplier (stock)</td><td></td><td>8,000</td><td>4,000</td></tr><tr><td>Nov 7</td><td>Customer payment</td><td>6,500</td><td></td><td>10,500</td></tr><tr><td>Nov 10</td><td>Rent</td><td></td><td>7,000</td><td>3,500</td></tr></table>
 <p class="small">Illustrative numbers.</p>
 <div class="foot"><span>Piso Wais Cheat Sheet. Educational only, not financial advice.</span><span>5</span></div></section>
 
-<section class="pg"><div class="tag">Section 5</div><h2>Debt payoff order</h2>
+<section class="pg"><div class="tag">Section 5</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/scale-320.webp" alt=""><span>Debt payoff order</span></h2>
 <p><strong>First:</strong> list every debt with balance, rate, minimum payment and due date. Stop adding new card debt. Never miss a minimum.</p>
 <div class="two"><div class="box blue"><strong>Avalanche</strong><br>Extra money goes to the <strong>highest interest rate</strong> first. Saves the most interest. Credit cards (up to 3% a month) usually come first.</div><div class="box pink"><strong>Snowball</strong><br>Extra money goes to the <strong>smallest balance</strong> first. Quick wins keep you going.</div></div>
-<h3>Recommended order for most households</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/coin-stack-320.webp" alt=""><span>Recommended order for most households</span></h3>
 <ol><li>Keep a small buffer (PHP 5,000 to 10,000) so surprises do not go back on the card.</li><li>Optional: clear one tiny debt for momentum.</li><li>Credit cards and other high-rate debt (avalanche).</li><li>Personal and salary loans.</li><li>0% installments: just pay on time, never let them lapse into penalties.</li><li>Family utang: agree on a written schedule and keep it.</li></ol>
 <div class="box gold"><strong>Avoid:</strong> borrowing from informal "5-6" lenders to pay cards; cash advances to pay other cards; new installments while paying off debt.</div>
-<h3>If the payment is impossible</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/handshake-320.webp" alt=""><span>If the payment is impossible</span></h3>
 <p>Call your bank before you miss payments and ask about restructuring or a balance transfer. Read every fee. Keep a written record of what was agreed.</p>
-<h3>After the last debt</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/trophy-320.webp" alt=""><span>After the last debt</span></h3>
 <p>Keep paying the same amount every month, but to yourself: first a full emergency fund, then long-term goals.</p>
+<img class="spot" src="art/spot-debt.png" alt="">
 <div class="foot"><span>Piso Wais Cheat Sheet. Educational only, not financial advice.</span><span>6</span></div></section>
 
-<section class="pg"><div class="tag">Section 6</div><h2>Wealth-building basics</h2>
+<section class="pg"><div class="tag">Section 6</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/savings-jar-320.webp" alt=""><span>Wealth-building basics</span></h2>
 <p>Only after your emergency fund is complete and high-interest debt is gone. These are descriptions, not recommendations. Every option has risks and rules; read the official terms.</p>
 <div class="box"><strong>Pag-IBIG MP2 (Modified Pag-IBIG II Savings).</strong> A voluntary 5-year savings program of the Pag-IBIG Fund for members. Dividends are declared each year based on the Fund's earnings, so they vary. For 2025, Pag-IBIG declared an MP2 dividend rate of 7.12% (announced February 27, 2026). Past dividends do not guarantee future ones. Source: Philippine News Agency and GMA News.</div>
 <div class="box"><strong>Retail Treasury Bonds (RTBs) and other government securities.</strong> Debt issued by the national government through the Bureau of the Treasury, offered to retail investors from time to time through banks and approved channels. You lend to the government for a fixed term and receive fixed coupons. Prices can move if you sell before maturity. Check the Bureau of the Treasury for current offers.</div>
 <div class="box"><strong>Index funds and UITFs.</strong> Pooled funds that invest in stocks, bonds or a mix. Mutual funds are regulated by the SEC; UITFs are offered by banks' trust departments under BSP rules. Equity funds can lose value, sometimes for years. Suitable mainly for money you will not need for 5 years or more.</div>
-<h3>Simple principles</h3>
+<h3 class="ih"><img class="ih3" src="../assets/icons3d/lightbulb-320.webp" alt=""><span>Simple principles</span></h3>
 <ol><li>Emergency fund first, investing second.</li><li>Invest regularly in small amounts rather than trying to time the market.</li><li>Understand fees: a 2% yearly fee is a big drag over 10 years.</li><li>If anyone promises guaranteed high returns, walk away and check the SEC advisories.</li><li>Never invest money you might need within a year.</li></ol>
 <div class="box pink"><strong>Red flags of a scam:</strong> fixed high monthly returns, pressure to recruit, "limited slots", payment to personal accounts, no SEC registration for the investment offered.</div>
 <div class="foot"><span>Sources listed on page 11. Educational only, not financial advice.</span><span>7</span></div></section>
 
-<section class="pg"><div class="tag">Section 7</div><h2>Business bottleneck fixes</h2>
+<section class="pg"><div class="tag">Section 7</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/wallet-320.webp" alt=""><span>Business bottleneck fixes</span></h2>
 <p>Take the 10-question Bottleneck Finder at pisowais.johnnybodegas.com/tools/#bottleneck, then fix your weakest three areas.</p>
 <div class="two">
 <div class="box"><strong>Pricing</strong><ul><li>Compute true cost per item: materials, labor, delivery, platform fees.</li><li>Raise prices on top sellers in small steps; watch volume for 2 weeks.</li><li>Give bonuses, not discounts.</li></ul></div>
@@ -137,7 +160,7 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <div class="box gold"><strong>Idle business cash:</strong> keep the business buffer in a separate insured savings account, not the drawer. See section 3.</div>
 <div class="foot"><span>Piso Wais Cheat Sheet. Educational only, not financial advice.</span><span>8</span></div></section>
 
-<section class="pg"><div class="tag">Section 8</div><h2>7-day action checklist</h2>
+<section class="pg"><div class="tag">Section 8</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/checklist-320.webp" alt=""><span>7-day action checklist</span></h2>
 <p>One small task a day. Tick it off.</p>
 <ul class="check">
 <li><strong>Day 1.</strong> List every debt (balance, rate, minimum, due date) and every account where your money sits.</li>
@@ -151,9 +174,10 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <div class="box blue"><strong>Every month after:</strong> check your savings rate, update your debt total, review your 30-day cash map, and run the Leverage Check before any big card purchase.</div>
 <div class="box pink"><strong>Free tools:</strong> Idle Money Compounder, Credit Card Leverage Check and Business Bottleneck Finder at pisowais.johnnybodegas.com/tools/. Your numbers stay in your browser.</div>
 <p>Follow Piso Wais on Facebook: @pisowaisph</p>
+<img class="spot" src="art/spot-checklist.png" alt="">
 <div class="foot"><span>Piso Wais Cheat Sheet. Educational only, not financial advice.</span><span>9</span></div></section>
 
-<section class="pg"><div class="tag">Notes</div><h2>Disclaimers</h2>
+<section class="pg"><div class="tag">Notes</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/shield-320.webp" alt=""><span>Disclaimers</span></h2>
 <p><strong>Educational only, not financial advice.</strong> This cheat sheet is general education. It does not consider your personal situation and is not investment, tax, legal or credit advice. Piso Wais is not a bank, lender, broker or registered investment adviser, and does not solicit investments.</p>
 <p><strong>Rates and rules change.</strong> Every rate here was read from the official page on November 4, 2026. Banks change rates and promo terms often. Confirm in the official app or website before moving money.</p>
 <p><strong>No guaranteed outcomes.</strong> Examples are illustrations. Leverage amplifies losses as well as gains. Past dividends or returns do not predict future ones.</p>
@@ -162,7 +186,7 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <p><strong>AI imagery.</strong> The Piso Wais mascot artwork was made with AI image tools.</p>
 <div class="foot"><span>Piso Wais Cheat Sheet</span><span>10</span></div></section>
 
-<section class="pg"><div class="tag">Sources</div><h2>Sources (checked November 4, 2026)</h2>
+<section class="pg"><div class="tag">Sources</div><h2 class="ih"><img class="ih2" src="../assets/icons3d/magnifier-320.webp" alt=""><span>Sources (checked November 4, 2026)</span></h2>
 <ul class="small" style="font-size:8.6pt">
 <li>BSP Circular No. 1165 (2023), credit card interest ceiling: bsp.gov.ph/Regulations/Issuances/2023/1165.pdf</li>
 <li>PDIC maximum deposit insurance coverage: pdic.gov.ph/MDIC</li>
@@ -180,6 +204,5 @@ table{width:100%;border-collapse:collapse;font-size:8.6pt;background:#fff}th,td{
 <li>Pag-IBIG MP2 2025 dividend: pna.gov.ph/index.php/articles/1270003 and gmanetwork.com/news/topstories/nation/978147</li>
 </ul>
 <div class="box"><strong>Get the latest version:</strong> pisowais.johnnybodegas.com. Rates on the website are updated with new dates when checked again.</div>
-<img src="pisowais-mascot.png" alt="" style="width:45mm;margin:10mm auto 0;display:block">
 <div class="foot"><span>Piso Wais Cheat Sheet. Educational only, not financial advice.</span><span>11</span></div></section>
 </body></html>
