@@ -22,11 +22,19 @@ def write(slug, cat):
 
 # 3D thumbnail style (batch 2 onward). Full recipe: THUMBNAIL_STYLE_3D.md.
 # Batch 1 live covers (site/assets/articles/<slug>.jpg) are NOT touched by this.
-PROMPT_3D = ('Polished 3D render illustration for a blog cover about {topic}: {objects}, cute clay-like 3D style with soft '
+# The Piso Wais mascot is MANDATORY in every new cover. Always pass MASCOT_REFS as reference images.
+MASCOT_REFS = ['site/assets/brand/pisowais-mascot.png', '/workspace/pisowais-anim-test/stills/mascot_full_9x16.png',
+               '/workspace/pisowais-anim-test/stills/mascot_closeup_9x16.png']
+MASCOT = ('The Piso Wais mascot exactly as in the reference images (cute pink piggy bank character, coin slot on top of the '
+          'head, big brown eyes and brown eyebrows, round pink snout, orange-yellow neckerchief, cream embroidered barong '
+          'shirt, navy rolled pants, brown sandals, often holding a gold coin) shown full body, smiling, {action}')
+PROMPT_3D = ('Polished 3D render blog cover about {topic}. ' + MASCOT + ', with {objects}. Cute clay-like 3D style with soft '
              'studio lighting and soft shadows, on a deep navy #121F47 background with a soft radial glow and a large warm '
              'yellow #F9B909 circle shape behind the objects, soft pink #FDAFB0 accents, clean minimal composition, wide '
-             'landscape, no text, no letters, no numbers, no logos.')
-def prompt_3d(topic, objects): return PROMPT_3D.format(topic=topic, objects=objects)
+             'landscape, group centered. Absolutely no text, no letters, no numbers, no logos, no card network marks, no currency symbols.')
+def prompt_3d(topic, action, objects):
+    """action: what the mascot does with the topic object, e.g. 'holding up a plain navy credit card'."""
+    return PROMPT_3D.format(topic=topic, action=action, objects=objects)
 def cover_3d(src, dest, w=1200, h=800, quality=86):
     """Center-crop a generated render to 3:2 and save as a 1200x800 progressive JPG."""
     from PIL import Image
