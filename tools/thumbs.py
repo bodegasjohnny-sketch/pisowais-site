@@ -19,3 +19,19 @@ def svg(cat, w=1200, h=800):
 def write(slug, cat):
     d = pathlib.Path('site/assets/articles'); d.mkdir(parents=True, exist_ok=True)
     (d / f'{slug}.svg').write_text(svg(cat))
+
+# 3D thumbnail style (batch 2 onward). Full recipe: THUMBNAIL_STYLE_3D.md.
+# Batch 1 live covers (site/assets/articles/<slug>.jpg) are NOT touched by this.
+PROMPT_3D = ('Polished 3D render illustration for a blog cover about {topic}: {objects}, cute clay-like 3D style with soft '
+             'studio lighting and soft shadows, on a deep navy #121F47 background with a soft radial glow and a large warm '
+             'yellow #F9B909 circle shape behind the objects, soft pink #FDAFB0 accents, clean minimal composition, wide '
+             'landscape, no text, no letters, no numbers, no logos.')
+def prompt_3d(topic, objects): return PROMPT_3D.format(topic=topic, objects=objects)
+def cover_3d(src, dest, w=1200, h=800, quality=86):
+    """Center-crop a generated render to 3:2 and save as a 1200x800 progressive JPG."""
+    from PIL import Image
+    im = Image.open(src).convert('RGB'); W, H = im.size; r = w / h
+    if W / H > r: nw = int(H * r); im = im.crop(((W - nw) // 2, 0, (W - nw) // 2 + nw, H))
+    else: nh = int(W / r); im = im.crop((0, (H - nh) // 2, W, (H - nh) // 2 + nh))
+    dest = pathlib.Path(dest); dest.parent.mkdir(parents=True, exist_ok=True)
+    im.resize((w, h), Image.LANCZOS).save(dest, 'JPEG', quality=quality, optimize=True, progressive=True)

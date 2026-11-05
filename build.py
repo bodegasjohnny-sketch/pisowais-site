@@ -6,6 +6,26 @@ root of pisowais.johnnybodegas.com."""
 import json, re, shutil, pathlib, html, datetime
 SRC = pathlib.Path('site'); OUT = pathlib.Path('docs'); SITE = 'https://pisowais.johnnybodegas.com'
 RATES = json.loads((SRC / 'data/rates.json').read_text())
+import sys; sys.path.insert(0, 'tools')
+from icon_map import ICON_MAP
+
+def point_icons(slug, body):
+    # Adds a decorative 3D icon (site/assets/icons3d) before each mapped guide point heading.
+    m = ICON_MAP.get(slug)
+    if not m: return body
+    def rep(g):
+        attrs, inner = g.group(1), g.group(2)
+        key = html.unescape(re.sub(r'<[^>]+>', '', inner)).strip()
+        ic = m.get(key)
+        if not ic: return g.group(0)
+        img = f'<img class="pt-ico" src="{{{{root}}}}assets/icons3d/{ic}-160.webp" srcset="{{{{root}}}}assets/icons3d/{ic}-160.webp 1x, {{{{root}}}}assets/icons3d/{ic}-320.webp 2x" alt="" width="72" height="72" loading="lazy" decoding="async">'
+        cls = ' class="pt-h"' if 'class=' not in attrs else attrs.replace('class="', 'class="pt-h ')
+        attrs = re.sub(r'\s*class="[^"]*"', '', attrs) + cls
+        return f'<h2{attrs}>{img}<span>{inner}</span></h2>'
+    out = re.sub(r'<h2((?:\s+id="l\d+")?)>(.*?)</h2>', rep, body, flags=re.S)
+    missing = set(m) - {html.unescape(re.sub(r'<[^>]+>', '', x)).strip() for x in re.findall(r'<h2[^>]*>(.*?)</h2>', body, re.S)}
+    if missing: print('WARN icon map keys not found in', slug, missing)
+    return out
 
 def nav(path):
     items = [('', 'Home'), ('tools/', 'Free tools'), ('platforms/', 'Where to park cash'), ('guides/', 'Guides'), ('plays/', 'Quizzes'), ('about/', 'About')]
@@ -71,6 +91,7 @@ def build():
             head_extra = '<script>document.write(\'<base href="\'+(location.hostname.endsWith("github.io")?"/pisowais-site/":"/")+\'">\')</script>'
         body = body.replace('{{platform_cards}}', platform_cards()).replace('{{rate_table}}', rate_table()).replace('{{logo_strip}}', logo_strip()).replace('{{checked}}', RATES['checked'])
         body = re.sub(r'\{\{thumb:([a-z0-9-]+)\}\}', thumb, body)
+        if path.startswith('guides/') and path.count('/') == 2: body = point_icons(path.split('/')[1], body)
         og_image, og_w, og_h, og_alt = SITE + '/assets/og-image.png', '1200', '630', 'Piso Wais: simple money habits for Filipinos'
         sect = path.split('/')[0] if path.count('/') == 2 else ''
         if sect in ('guides', 'plays'):
