@@ -79,7 +79,7 @@ def build():
             if (SRC / f'assets/articles/{cslug}.jpg').exists():
                 h1 = re.search(r'<h1>(.*?)</h1>', body, re.S)
                 alt = html.escape(re.sub(r'<[^>]+>', '', h1.group(1)) if h1 else meta['title'], quote=True)
-                og_image, og_w, og_h, og_alt = f'{SITE}/assets/articles/{cslug}.jpg', '600', '400', 'Cover image: ' + alt
+                og_image, og_w, og_h, og_alt = f'{SITE}/assets/articles/{cslug}.jpg', '1200', '800', 'Cover image: ' + alt
                 if sect == 'guides':
                     fig = f'<div class="wrap"><figure class="article-cover"><img src="{{{{root}}}}assets/articles/{cslug}.jpg" alt="Cover image: {alt}" width="600" height="400" fetchpriority="high" decoding="async"></figure></div>'
                     body = body.replace('</section>', '</section>\n<section class="cover-sec">' + fig + '</section>', 1)
