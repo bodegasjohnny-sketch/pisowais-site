@@ -78,6 +78,7 @@ def build():
     OUT.mkdir()
     for d in ['assets', 'css', 'js', 'vendor', 'data', 'config', 'downloads']:
         if (SRC / d).exists(): shutil.copytree(SRC / d, OUT / d)
+    shutil.rmtree(OUT / 'assets/icons3d/src', ignore_errors=True)  # raw renders, not needed live
     pages = []
     for f in sorted((SRC / 'pages').rglob('*.html')):
         raw = f.read_text()
