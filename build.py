@@ -71,14 +71,26 @@ def build():
             head_extra = '<script>document.write(\'<base href="\'+(location.hostname.endsWith("github.io")?"/pisowais-site/":"/")+\'">\')</script>'
         body = body.replace('{{platform_cards}}', platform_cards()).replace('{{rate_table}}', rate_table()).replace('{{logo_strip}}', logo_strip()).replace('{{checked}}', RATES['checked'])
         body = re.sub(r'\{\{thumb:([a-z0-9-]+)\}\}', thumb, body)
+        og_image, og_w, og_h, og_alt = SITE + '/assets/og-image.png', '1200', '630', 'Piso Wais: simple money habits for Filipinos'
+        sect = path.split('/')[0] if path.count('/') == 2 else ''
+        if sect in ('guides', 'plays'):
+            slug = path.split('/')[1]
+            cslug = slug if sect == 'guides' else 'play-' + slug
+            if (SRC / f'assets/articles/{cslug}.jpg').exists():
+                h1 = re.search(r'<h1>(.*?)</h1>', body, re.S)
+                alt = html.escape(re.sub(r'<[^>]+>', '', h1.group(1)) if h1 else meta['title'], quote=True)
+                og_image, og_w, og_h, og_alt = f'{SITE}/assets/articles/{cslug}.jpg', '600', '400', 'Cover image: ' + alt
+                if sect == 'guides':
+                    fig = f'<div class="wrap"><figure class="article-cover"><img src="{{{{root}}}}assets/articles/{cslug}.jpg" alt="Cover image: {alt}" width="600" height="400" fetchpriority="high" decoding="async"></figure></div>'
+                    body = body.replace('</section>', '</section>\n<section class="cover-sec">' + fig + '</section>', 1)
         canon = SITE + '/' + ('' if path == '404.html' else path)
         jsonld = meta.get('jsonld', 'org')
         if jsonld == 'article':
-            ld = {"@context": "https://schema.org", "@type": "Article", "headline": meta['title'], "description": meta['desc'], "datePublished": meta.get('date', '2026-11-04'), "dateModified": meta.get('date', '2026-11-04'), "author": {"@type": "Organization", "name": "Piso Wais"}, "publisher": {"@type": "Organization", "name": "Piso Wais", "logo": {"@type": "ImageObject", "url": SITE + '/assets/brand/pisowais-badge.png'}}, "mainEntityOfPage": canon, "image": SITE + '/assets/og-image.png'}
+            ld = {"@context": "https://schema.org", "@type": "Article", "headline": meta['title'], "description": meta['desc'], "datePublished": meta.get('date', '2026-11-04'), "dateModified": meta.get('date', '2026-11-04'), "author": {"@type": "Organization", "name": "Piso Wais"}, "publisher": {"@type": "Organization", "name": "Piso Wais", "logo": {"@type": "ImageObject", "url": SITE + '/assets/brand/pisowais-badge.png'}}, "mainEntityOfPage": canon, "image": og_image}
         else:
             ld = {"@context": "https://schema.org", "@type": "Organization", "name": "Piso Wais", "url": SITE + '/', "logo": SITE + '/assets/brand/pisowais-badge.png', "sameAs": ["https://www.facebook.com/pisowaisph"], "description": "Simple money habits for Filipinos. Educational content, not financial advice."}
         page = LAYOUT
-        for k, v in {'title': meta['title'], 'desc': meta['desc'], 'canonical': canon, 'nav': nav(path), 'body': body, 'jsonld': json.dumps(ld), 'scripts': meta.get('scripts', ''), 'robots': 'noindex' if path == '404.html' else 'index,follow', 'year': '2026', 'head_extra': head_extra}.items():
+        for k, v in {'title': meta['title'], 'desc': meta['desc'], 'canonical': canon, 'nav': nav(path), 'body': body, 'jsonld': json.dumps(ld), 'scripts': meta.get('scripts', ''), 'robots': 'noindex' if path == '404.html' else 'index,follow', 'year': '2026', 'head_extra': head_extra, 'og_image': og_image, 'og_w': og_w, 'og_h': og_h, 'og_alt': og_alt}.items():
             page = page.replace('{{' + k + '}}', v)
         page = page.replace('{{root}}', root)
         dest = OUT / (path + 'index.html' if path.endswith('/') or path == '' else path)
