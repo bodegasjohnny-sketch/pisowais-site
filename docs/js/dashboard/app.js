@@ -42,7 +42,14 @@ function goalProgress(goal) {
 }
 function billRow(bill, compact = false) {
   const payment = state.book.transactions.find(e => e.bill_id === bill.id), overdue = !payment && bill.due_date < today();
-  return `<div class="list-row"><span class="list-symbol">${icon('bills')}</span><div class="list-info"><strong>${esc(bill.title)}</strong><p class="${overdue ? 'bill-overdue' : ''}">${money(bill.amount_cents)} · ${dateLabel(bill.due_date)}${overdue ? ' · Overdue' : ''}${payment ? ' · Paid' : ''}</p></div><div class="row-actions">${compact ? btn(icon('arrow'),'edit-bill','icon-button',`data-id="${bill.id}" aria-label="View ${esc(bill.title)} bill"`) : `${!payment ? btn('Record paid','pay-bill','text-button',`data-id="${bill.id}"`) : '<span class="tag">Paid</span>'}${rowActions('bills',bill.id,bill.title)}`}</div></div>`;
+  return `<div class="list-row"><span class="list-symbol">${icon('bills')}</span><div class="list-info"><strong>${esc(bill.title)}</strong><p class="${overdue ? 'bill-overdue' : ''}">${money(bill.amount_cents)} · ${dateLabel(bill.due_date)}${overdue ? ' · Overdue' : ''}${payment ? ' · Paid' : ''}</p></div><div class="row-actions">${compact ? btn(icon('arrow'),'view-bill','icon-button',`data-id="${bill.id}" aria-label="View ${esc(bill.title)} bill"`) : `${!payment ? btn('Record paid','pay-bill','text-button',`data-id="${bill.id}"`) : '<span class="tag">Paid</span>'}${rowActions('bills',bill.id,bill.title)}`}</div></div>`;
+}
+function billDetail(id) {
+  const bill = state.book.bills.find(b => b.id === id);
+  if (!bill) return notify('This bill is no longer available.');
+  const payment = state.book.transactions.find(e => e.bill_id === id);
+  const status = payment ? 'Paid · linked expense recorded' : bill.due_date < today() ? 'Overdue · no payment recorded' : 'Upcoming · no payment recorded';
+  showDialog('Bill details', `<p class="dialog-copy">${esc(bill.title)}</p><dl class="bill-details"><div><dt>Amount due</dt><dd>${money(bill.amount_cents)}</dd></div><div><dt>Due date</dt><dd><time datetime="${bill.due_date}">${dateLabel(bill.due_date)}, ${bill.due_date.slice(0,4)}</time></dd></div><div><dt>Status</dt><dd>${status}</dd></div>${payment ? `<div><dt>Recorded payment</dt><dd>${money(payment.amount_cents)} · ${dateLabel(payment.date)}, ${payment.date.slice(0,4)}</dd></div>` : ''}</dl><p class="notice-inline">This is a reminder, not an automatic payment. Only a linked expense changes your recorded totals.</p>${state.mode === 'demo' ? '<p class="hint">Example bill. Edits stay in this page only and reset on reload. Nothing is saved to local or account storage.</p>' : ''}<div class="button-row">${btn('Close','close','btn outline')}${btn(icon('edit')+'Edit bill','edit','btn gold',`data-table="bills" data-id="${id}"`)}</div>`);
 }
 function rowActions(table,id,title) { return `${btn(icon('edit'),'edit','icon-button',`data-table="${table}" data-id="${id}" aria-label="Edit ${esc(title)}"`)}${btn(icon('trash'),'delete','icon-button',`data-table="${table}" data-id="${id}" aria-label="Delete ${esc(title)}"`)}`; }
 function transactionRows(rows) {
@@ -82,7 +89,7 @@ function editor(table,id,defaults = {}) {
     if (table === 'bills') fields += `<div class="form-grid">${field('amount','Amount due (₱)',row.amount_cents != null ? row.amount_cents/100 : '',amountInput.replace('min="0"','min="0.01"'))}${field('due_date','Due date',row.due_date || today(),'type="date" required')}</div><p class="notice-inline">This is a reminder only. No money is moved and no expense is recorded until you select “Record paid.”</p>`;
     if (table === 'debts') fields += `${field('opening','Opening debt balance (₱)',row.opening_cents != null ? row.opening_cents/100 : '',amountInput.replace('min="0"','min="0.01"'))}<div class="form-grid">${field('apr','Annual interest rate (%)',(row.apr_bps || 0)/100,amountInput+' max="1000"')}${field('minimum','Minimum monthly payment (₱)',(row.minimum_cents || 0)/100,amountInput)}</div><p class="notice-inline">No automatic interest is added. Balance = opening debt − payments. Check your lender’s statement.</p>`;
   }
-  showDialog(title,`<form id="record-form" data-table="${table}" data-id="${id || ''}">${fields}<p class="form-error" role="alert"></p><div class="button-row">${btn('Cancel','close','btn outline')}<button class="btn gold" type="submit">${id ? 'Save changes' : 'Add '+({transactions:'entry',goals:'goal',bills:'bill',debts:'debt'}[table])}</button></div></form>`);
+  showDialog(title,`${state.mode === 'demo' ? '<p class="notice-inline">Example data only. Edits stay in this page and reset on reload; they are not saved to local or account storage.</p>' : ''}<form id="record-form" data-table="${table}" data-id="${id || ''}">${fields}<p class="form-error" role="alert"></p><div class="button-row">${btn('Cancel','close','btn outline')}<button class="btn gold" type="submit">${id ? 'Save changes' : 'Add '+({transactions:'entry',goals:'goal',bills:'bill',debts:'debt'}[table])}</button></div></form>`);
   if (table === 'transactions') updateLinks(row);
 }
 function updateLinks(row = {}) {
@@ -169,7 +176,7 @@ async function action(button) {
   if(a==='add-bill'){editor('bills');return;}
   if(a==='add-goal'){editor('goals');return;}
   if(a==='add-debt'){editor('debts');return;}
-  if(a==='edit-bill'){editor('bills',id);return;}
+  if(a==='view-bill'){billDetail(id);return;}
   if(a==='edit'){editor(table,id);return;}
   if(a==='delete'){deleteConfirm(table,id);return;}
   if(a==='add-savings'||a==='withdraw'){editor('transactions',null,{kind:a==='withdraw'?'withdrawal':'savings',goal_id:id});return;}

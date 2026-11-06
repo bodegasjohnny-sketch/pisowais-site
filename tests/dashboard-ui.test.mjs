@@ -34,3 +34,37 @@ test('working UI: honest setup, zero state, opt-in demo, CRUD, savings, bills, g
   await click('[data-action="settings"]');await click('[data-action="clear"]');await click('#editor [data-action="confirm-clear"]');assert.equal(dom.window.localStorage.length,0);
   dom.window.close();
 });
+
+test('bill View is read-only until explicit Edit; demo edits never overwrite local/account records',async()=>{
+  const html=await readFile(new URL('../docs/dashboard/index.html',import.meta.url),'utf8');
+  const dom=new JSDOM(html,{url:'http://localhost:8793/dashboard/?demo=1'});
+  const fetches=[];
+  Object.assign(globalThis,{window:dom.window,document:dom.window.document,location:dom.window.location,FormData:dom.window.FormData,fetch:async url=>{fetches.push(url);return {ok:true,json:async()=>({accountsEnabled:false})};}});
+  dom.window.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
+  dom.window.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');};
+  const localKey='piso-wais-local-preview-v1',originalLocal=JSON.stringify({goals:[],debts:[],bills:[],transactions:[]});
+  dom.window.localStorage.setItem(localKey,originalLocal);
+  const click=async selector=>{const el=document.querySelector(selector);assert(el,`Missing ${selector}`);el.click();await tick();};
+  await import('../site/js/dashboard/app.js?bill-details-regression');await tick();
+  await click('[aria-label="View Internet bill"]');
+  const detail=document.getElementById('editor');
+  assert.equal(detail.querySelector('#dialog-title').textContent,'Bill details');
+  assert.equal(detail.querySelector('form,input,select,textarea,[contenteditable],button[type=submit]'),null);
+  assert(detail.textContent.includes('₱1,500'));assert(detail.textContent.includes('no payment recorded'));
+  assert(detail.textContent.includes('Nothing is saved to local or account storage'));
+  await click('#editor [data-action="edit"]');
+  assert.equal(detail.querySelector('#dialog-title').textContent,'Edit bill');
+  assert(detail.querySelector('#record-form'));assert(detail.textContent.includes('Example data only'));
+  detail.querySelector('[name=amount]').value='1550.75';
+  detail.querySelector('form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await tick();
+  assert(!detail.open);assert(document.getElementById('dashboard').textContent.includes('₱9,500'));
+  await click('[aria-label="View Internet bill"]');assert(detail.textContent.includes('₱1,550.75'));
+  assert.equal(dom.window.localStorage.getItem(localKey),originalLocal);
+  assert.equal(fetches.length,1);assert(fetches[0].endsWith('config/dashboard.json'));
+  await click('#editor [data-action="close"]');await click('[data-action="exit"]');await click('[data-action="demo"]');
+  await click('[aria-label="View Internet bill"]');assert(detail.textContent.includes('₱1,500'));assert(!detail.textContent.includes('₱1,550.75'));
+  assert.equal(dom.window.localStorage.getItem(localKey),originalLocal);
+  const css=await readFile(new URL('../site/css/dashboard.css',import.meta.url),'utf8');
+  assert(!/font-size:(?:9|10|11)px/.test(css),'Secondary text is at least 12px, including responsive overrides');
+  dom.window.close();
+});
