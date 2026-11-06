@@ -28,7 +28,7 @@ def point_icons(slug, body):
     return out
 
 def nav(path):
-    items = [('', 'Home'), ('tools/', 'Free tools'), ('platforms/', 'Where to park cash'), ('guides/', 'Guides'), ('plays/', 'Quizzes'), ('about/', 'About')]
+    items = [('', 'Home'), ('tools/', 'Free tools'), ('platforms/', 'Where to park cash'), ('guides/', 'Guides'), ('plays/', 'Quizzes'), ('dashboard/', 'Dashboard')]
     return ''.join(f'<li><a href="{{{{root}}}}{p}"{" aria-current=page" if p == path else ""}>{t}</a></li>' for p, t in items)
 
 LAYOUT = (SRC / 'layout.html').read_text()
@@ -111,13 +111,13 @@ def build():
             ld = {"@context": "https://schema.org", "@type": "Article", "headline": meta['title'], "description": meta['desc'], "datePublished": meta.get('date', '2026-11-04'), "dateModified": meta.get('date', '2026-11-04'), "author": {"@type": "Organization", "name": "Piso Wais"}, "publisher": {"@type": "Organization", "name": "Piso Wais", "logo": {"@type": "ImageObject", "url": SITE + '/assets/brand/pisowais-badge.png'}}, "mainEntityOfPage": canon, "image": og_image}
         else:
             ld = {"@context": "https://schema.org", "@type": "Organization", "name": "Piso Wais", "url": SITE + '/', "logo": SITE + '/assets/brand/pisowais-badge.png', "sameAs": ["https://www.facebook.com/pisowaisph"], "description": "Simple money habits for Filipinos. Educational content, not financial advice."}
-        page = LAYOUT
-        for k, v in {'title': meta['title'], 'desc': meta['desc'], 'canonical': canon, 'nav': nav(path), 'body': body, 'jsonld': json.dumps(ld), 'scripts': meta.get('scripts', ''), 'robots': 'noindex' if path == '404.html' else 'index,follow', 'year': '2026', 'head_extra': head_extra, 'og_image': og_image, 'og_w': og_w, 'og_h': og_h, 'og_alt': og_alt}.items():
+        page = (SRC / 'dashboard-layout.html').read_text() if meta.get('layout') == 'dashboard' else LAYOUT
+        for k, v in {'title': meta['title'], 'desc': meta['desc'], 'canonical': canon, 'nav': nav(path), 'body': body, 'jsonld': json.dumps(ld), 'scripts': meta.get('scripts', ''), 'robots': 'noindex,nofollow' if path == '404.html' or meta.get('layout') == 'dashboard' else 'index,follow', 'year': '2026', 'head_extra': head_extra, 'og_image': og_image, 'og_w': og_w, 'og_h': og_h, 'og_alt': og_alt}.items():
             page = page.replace('{{' + k + '}}', v)
         page = page.replace('{{root}}', root)
         dest = OUT / (path + 'index.html' if path.endswith('/') or path == '' else path)
         dest.parent.mkdir(parents=True, exist_ok=True); dest.write_text(page)
-        if path != '404.html': pages.append(path)
+        if path != '404.html' and meta.get('layout') != 'dashboard': pages.append(path)
     (OUT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{SITE}/{p}</loc><lastmod>{RATES["checked"]}</lastmod></url>\n' for p in pages) + '</urlset>\n')
     (OUT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n')
     import os

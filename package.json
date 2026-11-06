@@ -1,1 +1,18 @@
-{"name": "pisowais-site", "private": true, "type": "module", "scripts": {"test": "node tests/calc.test.mjs && node tests/articles.test.mjs && node tests/plays.test.mjs", "build": "python3 build.py"}}
+{
+  "name": "pisowais-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/calc.test.mjs && node tests/articles.test.mjs && node tests/plays.test.mjs && node --test tests/dashboard*.test.mjs",
+    "build": "python3 build.py && node tools/bundle-dashboard.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.109.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.15",
+    "esbuild": "0.28.2",
+    "jsdom": "29.1.1",
+    "supabase": "3.0.0"
+  }
+}

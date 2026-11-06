@@ -1,0 +1,36 @@
+// DOM-only interaction tests. No desktop/browser automation or external network.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {JSDOM} from 'jsdom';
+import {readFile} from 'node:fs/promises';
+const tick=async()=>{await new Promise(r=>setTimeout(r,15));};
+test('working UI: honest setup, zero state, opt-in demo, CRUD, savings, bills, gates and local consent',async()=>{
+  const html=await readFile(new URL('../docs/dashboard/index.html',import.meta.url),'utf8');
+  const dom=new JSDOM(html,{url:'http://localhost:8793/dashboard/'});
+  Object.assign(globalThis,{window:dom.window,document:dom.window.document,location:dom.window.location,FormData:dom.window.FormData,fetch:async()=>({ok:true,json:async()=>({accountsEnabled:false})})});
+  dom.window.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
+  dom.window.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');};
+  const click=async selector=>{const el=document.querySelector(selector);assert(el,`Missing ${selector}`);el.click();await tick();};
+  const value=(name,val)=>{const input=document.querySelector(`#editor [name="${name}"]`);assert(input,`Missing field ${name}`);input.value=val;};
+  const submit=async()=>{document.querySelector('#editor form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await tick();};
+  const text=()=>document.getElementById('dashboard').textContent;
+  await import('../site/js/dashboard/app.js');await tick();
+  assert(text().includes('Accounts coming soon'));assert(text().includes('₱0'));
+  await click('[data-action="account"]');assert(document.querySelector('#editor').textContent.includes('not connected'));assert(!document.querySelector('#editor input[type=email]'));
+  await click('#editor [data-action="demo"]');assert(text().includes('EXAMPLE DATA'));assert(text().includes('₱9,500'));assert(text().includes('₱30,000'));
+  await click('[data-action="breakdown"][data-kind="available"]');assert(document.querySelector('#editor').textContent.includes('− Savings set aside'));await click('#editor [data-action="close"]');
+  await click('[data-action="add-entry"]');value('kind','income');document.querySelector('#f-kind').dispatchEvent(new dom.window.Event('change',{bubbles:true}));value('note','<img src=x onerror=alert(1)>');value('amount','100.29');await submit();assert(text().includes('₱9,600.29'));
+  await click('.side-nav [data-view="transactions"]');assert(text().includes('<img src=x onerror=alert(1)>'));assert(!document.querySelector('img[onerror]'));
+  const row=[...document.querySelectorAll('tr')].find(r=>r.textContent.includes('<img src='));row.querySelector('[data-action="edit"]').click();await tick();value('amount','200.29');await submit();
+  await click('.side-nav [data-view="overview"]');assert(text().includes('₱9,700.29'));
+  await click('.side-nav [data-view="transactions"]');const edited=[...document.querySelectorAll('tr')].find(r=>r.textContent.includes('<img src='));edited.querySelector('[data-action="delete"]').click();await tick();assert(document.getElementById('editor').textContent.includes('cannot be undone'));await click('#editor [data-action="confirm-delete"]');assert(!text().includes('<img src='));
+  await click('.side-nav [data-view="bills"]');await click('[data-action="pay-bill"]');await submit();assert(text().includes('Paid'));
+  await click('.side-nav [data-view="goals"]');await click('[data-action="add-savings"]');value('note','Goal top-up');value('amount','10.01');await submit();assert(text().includes('₱6,010.01'));
+  await click('.side-nav [data-view="plan"]');document.querySelector('#payday-form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));assert(document.querySelector('.form-result').textContent.includes('₱9,000'));
+  await click('[data-action="exit"]');assert(text().includes('₱0'));
+  await click('[data-action="local"]');assert(document.querySelector('#local-consent input[required]'));document.querySelector('#local-consent input').checked=true;await submit();assert(text().includes('LOCAL PREVIEW'));
+  await click('.side-nav [data-view="plan"]');assert(text().includes('No price or checkout'));assert(!document.querySelector('#payday-form'));
+  await click('[data-action="add-entry"]');value('kind','income');document.querySelector('#f-kind').dispatchEvent(new dom.window.Event('change',{bubbles:true}));value('note','My local entry');value('amount','0.29');await submit();assert(dom.window.localStorage.length===1);
+  await click('[data-action="settings"]');await click('[data-action="clear"]');await click('#editor [data-action="confirm-clear"]');assert.equal(dom.window.localStorage.length,0);
+  dom.window.close();
+});
