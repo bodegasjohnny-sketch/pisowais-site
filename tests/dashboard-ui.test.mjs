@@ -29,7 +29,7 @@ test('working UI: honest setup, zero state, opt-in demo, CRUD, savings, bills, g
   await click('.side-nav [data-view="plan"]');document.querySelector('#payday-form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));assert(document.querySelector('.form-result').textContent.includes('₱9,000'));
   await click('[data-action="exit"]');assert(text().includes('₱0'));
   await click('[data-action="local"]');assert(document.querySelector('#local-consent input[required]'));document.querySelector('#local-consent input').checked=true;await submit();assert(text().includes('LOCAL PREVIEW'));
-  await click('.side-nav [data-view="plan"]');assert(text().includes('No price or checkout'));assert(!document.querySelector('#payday-form'));
+  await click('.side-nav [data-view="plan"]');assert(text().includes('No checkout'));assert(!document.querySelector('#payday-form'));
   await click('[data-action="add-entry"]');value('kind','income');document.querySelector('#f-kind').dispatchEvent(new dom.window.Event('change',{bubbles:true}));value('note','My local entry');value('amount','0.29');await submit();assert(dom.window.localStorage.length===1);
   await click('[data-action="settings"]');await click('[data-action="clear"]');await click('#editor [data-action="confirm-clear"]');assert.equal(dom.window.localStorage.length,0);
   dom.window.close();

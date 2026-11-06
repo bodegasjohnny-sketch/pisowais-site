@@ -101,17 +101,30 @@ export function allocate(received, percentages) {
 }
 export function payoff(debts, budget, strategy = 'avalanche') {
   amount(budget);
-  const ds = debts.filter(d => d.balance > 0).map(d => ({ ...d }));
-  if (!ds.length) return { months: 0, interest: 0, paid: 0 };
-  if (budget < ds.reduce((s, d) => s + Math.min(d.minimum_cents, d.balance), 0)) throw Error('The monthly budget is below the current minimum payments.');
-  let interest = 0, paid = 0;
-  for (let month = 1; month <= 600; month++) {
-    let left = budget;
-    for (const d of ds) { const i = Math.round(d.balance * d.apr_bps / 120000); d.balance += i; interest += i; const payment = Math.min(d.balance, d.minimum_cents, left); d.balance -= payment; left -= payment; paid += payment; }
-    ds.sort(strategy === 'snowball' ? (a, b) => a.balance - b.balance : (a, b) => b.apr_bps - a.apr_bps);
-    for (const d of ds) { const payment = Math.min(left, d.balance); d.balance -= payment; left -= payment; paid += payment; }
-    if (ds.every(d => d.balance === 0)) return { months: month, interest, paid };
-    if (!Number.isSafeInteger(interest)) break;
+  if(!['avalanche','snowball'].includes(strategy) || !Array.isArray(debts)) throw Error('Choose a valid payoff strategy.');
+  for(const d of debts) {
+    amount(d.balance,true);amount(d.minimum_cents,true);
+    if(!Number.isInteger(d.apr_bps) || d.apr_bps < 0 || d.apr_bps > 100000) throw Error('APR must be between 0 and 1000%.');
+  }
+  const ds=debts.filter(d => d.balance > 0).map(d => ({...d}));
+  if(!ds.length)return {months:0,interest:0,paid:0};
+  if(budget < ds.reduce((s,d) => s+Math.min(d.minimum_cents,d.balance),0)) throw Error('The monthly budget is below the current minimum payments.');
+  let interest=0,paid=0;
+  for(let month=1;month<=600;month++) {
+    let left=budget;
+    for(const d of ds) {
+      d.startBalance=d.balance;
+      // Exact half-up centavo rounding, even at maximum supported balance/APR.
+      const i=Number((BigInt(d.balance)*BigInt(d.apr_bps)+60000n)/120000n);
+      d.balance+=i;interest+=i;
+      if(!Number.isSafeInteger(d.balance) || !Number.isSafeInteger(interest))throw Error('Scenario exceeds safe calculation limits.');
+      const payment=Math.min(d.balance,d.minimum_cents,left);d.balance-=payment;left-=payment;paid+=payment;
+    }
+    ds.sort(strategy === 'snowball' ? (a,b) => a.balance-b.balance : (a,b) => b.apr_bps-a.apr_bps);
+    for(const d of ds) { const payment=Math.min(left,d.balance);d.balance-=payment;left-=payment;paid+=payment; }
+    if(!Number.isSafeInteger(paid))throw Error('Scenario exceeds safe calculation limits.');
+    if(ds.every(d => d.balance === 0))return {months:month,interest,paid};
+    if(ds.some(d => d.balance > d.startBalance) || ds.reduce((s,d) => s+d.balance,0) >= ds.reduce((s,d) => s+d.startBalance,0)) throw Error('This strategy grows a debt balance or makes no principal progress (negative amortization or interest-only). Increase the budget or reconcile the minimum payments.');
   }
   throw Error('Not paid off within 50 years at that budget. Increase it or review your rates.');
 }
