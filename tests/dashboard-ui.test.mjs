@@ -68,3 +68,35 @@ test('bill View is read-only until explicit Edit; demo edits never overwrite loc
   assert(!/font-size:(?:9|10|11)px/.test(css),'Secondary text is at least 12px, including responsive overrides');
   dom.window.close();
 });
+
+test('accessibility structure: named native controls, labelled fields, navigation focus and dialog semantics',async()=>{
+  const html=await readFile(new URL('../docs/dashboard/index.html',import.meta.url),'utf8');
+  const dom=new JSDOM(html,{url:'http://localhost:8793/dashboard/?demo=1'});
+  Object.assign(globalThis,{window:dom.window,document:dom.window.document,location:dom.window.location,FormData:dom.window.FormData,fetch:async()=>({ok:true,json:async()=>({accountsEnabled:false})})});
+  dom.window.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
+  dom.window.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');};
+  await import('../site/js/dashboard/app.js?accessibility-rubric');await tick();
+  assert.equal(document.documentElement.lang,'en-PH');
+  const namedControls=()=>{
+    for(const b of document.querySelectorAll('button'))assert((b.getAttribute('aria-label')||b.textContent).trim(),'Button has an accessible name');
+    for(const a of document.querySelectorAll('a'))assert((a.getAttribute('aria-label')||a.textContent||a.querySelector('img')?.alt||'').trim(),'Link has an accessible name');
+    assert.equal(document.querySelector('[data-action]:not(button)'),null,'Actions use native keyboard-compatible buttons');
+    assert.equal([...document.querySelectorAll('[tabindex]')].some(el=>el.tabIndex>0),false,'No positive tabindex changes the natural tab order');
+    for(const svg of document.querySelectorAll('svg'))assert.equal(svg.getAttribute('aria-hidden'),'true');
+  };
+  namedControls();
+  const nav=document.querySelector('.side-nav [data-view="goals"]');nav.focus();assert.equal(document.activeElement,nav);
+  nav.click();await tick();assert.equal(document.activeElement.id,'content','Navigation moves programmatic focus to main');
+  assert(document.querySelector('.side-nav [data-view="goals"][aria-current="page"]'));
+  const progress=document.querySelector('progress');assert(progress.getAttribute('aria-label'));
+  document.querySelector('[data-action="add-entry"]').click();await tick();
+  const detail=document.getElementById('editor');assert(detail.open);assert.equal(detail.getAttribute('aria-labelledby'),'dialog-title');assert(document.getElementById('dialog-title').textContent);
+  for(const input of detail.querySelectorAll('input,select'))assert(input.labels?.length>0,`Field ${input.name} is labelled`);
+  namedControls();assert.equal(detail.querySelector('.form-error').getAttribute('role'),'alert');
+  assert.equal(document.getElementById('notice').getAttribute('role'),'status');
+  assert(document.querySelector('.skip[href="#content"]'));
+  const css=await readFile(new URL('../site/css/dashboard.css',import.meta.url),'utf8');
+  assert(css.includes(':focus-visible'));assert(css.includes('@media(max-width:640px)'));assert(css.includes('.bottom-nav'));assert(css.includes('prefers-reduced-motion'));
+  // DOM checks do not prove native Tab/Enter/Escape behavior, focus trapping or mobile layout.
+  dom.window.close();
+});
